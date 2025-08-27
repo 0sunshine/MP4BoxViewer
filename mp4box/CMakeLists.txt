@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.5.0)
 project(mp4box)
 
-include_directories(./include)
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-file(GLOB BoxHeaders LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/include/*)
-file(GLOB BoxSources LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
+file(GLOB_RECURSE BoxHeaders LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
+file(GLOB_RECURSE BoxSources LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 message("mp4box header: ")
 foreach(item IN LISTS BoxHeaders)

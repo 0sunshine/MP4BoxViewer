@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Box.h"
+#include "ContainerBox.h"
 
-struct RootBox:public Box
+struct RootBox : public ContainerBox
 {
-    int64_t Parse(IOBase* io) override;
+    //int64_t Parse(IOBase* io) override;
 };

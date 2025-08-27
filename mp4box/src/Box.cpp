@@ -6,10 +6,31 @@
 
 int64_t Box::Parse(IOBase* io)
 {
-    io->SeekTo(_ioStartPos);
-    io->SeekTo(_size, IOBase::SeeKDirection::Curr);
+    if( !io->SeekTo(_ioStartPos) )
+    {
+        return -1;
+    }
+
+
+    if( !io->SeekTo(_size, IOBase::SeeKDirection::Curr) )
+    {
+        return -1;
+    }
 
     return _size;
+}
+
+void Box::GetBoxsByType(std::vector<Box*>& boxs, const std::string& type)
+{
+    if(type == _type)
+    {
+        boxs.push_back(this);
+    }
+
+    for(auto& sub : _subBoxs)
+    {
+        sub->GetBoxsByType(boxs, type);
+    }
 }
 
 Box* Box::GetOneBox(IOBase* io)
@@ -45,5 +66,6 @@ Box* Box::GetOneBox(IOBase* io)
         io->Read(reinterpret_cast<uint8_t*>(box->_userType), 16);
     }
 
+    box->_ioBodyPos = io->GetCurrPos();
     return box;
 }

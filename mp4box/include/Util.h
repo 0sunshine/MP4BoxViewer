@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <vector>
 
 template<typename T>
 void ByteOrderReverse(T& value)
@@ -17,3 +18,5 @@ void ByteOrderReverse(T& value)
         pValue[i] = pCopy[sizeof(T) - i - 1];
     }
 }
+
+void ByteOrderReverse(uint8_t* p, int len);
