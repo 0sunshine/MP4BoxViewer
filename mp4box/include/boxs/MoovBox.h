@@ -4,6 +4,6 @@
 
 #include <optional>
 
-struct MoovBox : public ContainerBox
+struct MoofBox : public ContainerBox
 {
 };

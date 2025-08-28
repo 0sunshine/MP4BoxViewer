@@ -14,7 +14,7 @@ int64_t FullBox::Parse(IOBase* io)
     }
     ByteOrderReverse(reinterpret_cast<uint8_t*>(&_flags), 3);
 
-    int64_t _ioCurrPos2 = io->GetCurrPos();
+    _ioBodyPos = io->GetCurrPos();
 
-    return _ioCurrPos2 - _ioCurrPos;
+    return _ioBodyPos - _ioCurrPos;
 }

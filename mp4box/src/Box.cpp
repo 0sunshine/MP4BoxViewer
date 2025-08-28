@@ -33,7 +33,7 @@ void Box::GetBoxsByType(std::vector<Box*>& boxs, const std::string& type)
     }
 }
 
-Box* Box::GetOneBox(IOBase* io)
+Box* Box::GetOneBox(IOBase* io, Box* specifiedBox)
 {
     int64_t ioStartPos = io->GetCurrPos();
 
@@ -47,9 +47,13 @@ Box* Box::GetOneBox(IOBase* io)
     char type[5] = {};
     io->Read(reinterpret_cast<uint8_t*>(type), 4);
 
-    Box* box = BoxFactory::GetBoxByType(type);
+    Box* box = specifiedBox;
+    if (!box)
+    {
+        box = BoxFactory::GetBoxByType(type);
+    }
+        
     box->_ioStartPos = ioStartPos;
-
     box->_size = size;
     memcpy(box->_type, type, 4);
 

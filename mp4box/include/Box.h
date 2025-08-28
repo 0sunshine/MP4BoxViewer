@@ -22,5 +22,5 @@ struct Box
     void GetBoxsByType(std::vector<Box*>& boxs, const std::string& type);
 
 protected:
-    Box* GetOneBox(IOBase* io);
+    Box* GetOneBox(IOBase* io, Box* specifiedBox = nullptr);
 };

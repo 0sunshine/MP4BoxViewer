@@ -11,6 +11,11 @@ bool IOFStream::OpenFile(const std::string& path)
 
     return true;
 }
+
+void IOFStream::Close() 
+{
+    _in.close();
+}
 
 int64_t IOFStream::GetFileSize()
 {

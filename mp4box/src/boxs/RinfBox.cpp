@@ -1,14 +1,13 @@
-#include "ContainerBox.h"
+#include "boxs/RinfBox.h"
 #include "Util.h"
 
 #include <iostream>
 
-int64_t ContainerBox::Parse(IOBase* io)
+int64_t RinfBox::Parse(IOBase* io)
 {
     int64_t _ioCurrPos = io->GetCurrPos();
 
-    while(_ioCurrPos < _ioStartPos + _size)
-    {
+    while (_ioCurrPos < _ioStartPos + _size) {
         Box* subBox = GetOneBox(io);
         if (subBox->Parse(io) < 0) {
             delete subBox;
@@ -23,4 +22,3 @@ int64_t ContainerBox::Parse(IOBase* io)
 
     return _ioCurrPos - _ioStartPos;
 }
-

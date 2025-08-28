@@ -4,19 +4,36 @@
 #include "IOFStream.h"
 #include "RootBox.h"
 #include "boxs/TrunBox.h"
+#include "boxs/StsdBox.h"
 
 int main(int, char**)
 {
-    RootBox rootBox;
+    RootBox rootMetaBox;
     IOFStream fin;
 
-    if( !fin.OpenFile("D:/task/vr/Test_track11.2.mp4") )
-    {
+    if (!fin.OpenFile("D:/task/vr/Test_track11.init.mp4")) {
+        std::cout << "open file error" << std::endl;
+    }
+
+    rootMetaBox._size = fin.GetFileSize();
+    if (rootMetaBox.Parse(&fin) < 0) {
+        std::cout << "rootBox parser error" << std::endl;
+        return -1;
+    }
+
+    std::cout << "box num: " << rootMetaBox._subBoxs.size() << std::endl;
+
+    std::vector<Box*> stsdBoxs;
+    rootMetaBox.GetBoxsByType(stsdBoxs, "stsd");
+    StsdBox* stsdBox = static_cast<StsdBox*>(stsdBoxs[0]);
+
+
+    RootBox rootBox;
+    if( !fin.OpenFile("D:/task/vr/Test_track11.2.mp4") ){
         std::cout << "open file error" << std::endl;
     }
 
     rootBox._size = fin.GetFileSize();
-
     if (rootBox.Parse(&fin) < 0)
     {
         std::cout << "rootBox parser error" << std::endl;

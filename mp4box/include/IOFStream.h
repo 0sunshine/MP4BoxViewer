@@ -9,6 +9,7 @@ class IOFStream: public IOBase
 {
 public:
     bool OpenFile(const std::string& path);
+    void Close();
 
     int64_t GetFileSize();
 
