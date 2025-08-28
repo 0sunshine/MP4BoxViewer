@@ -1,4 +1,5 @@
 #include <iostream>
+#include <format>
 
 #include "IOFStream.h"
 #include "RootBox.h"
@@ -16,7 +17,11 @@ int main(int, char**)
 
     rootBox._size = fin.GetFileSize();
 
-    rootBox.Parse(&fin);
+    if (rootBox.Parse(&fin) < 0)
+    {
+        std::cout << "rootBox parser error" << std::endl;
+        return -1;
+    }
 
     std::cout << "box num: " << rootBox._subBoxs.size() << std::endl;
 
@@ -37,14 +42,30 @@ int main(int, char**)
 
     fin.SeekTo(mdatBox->_ioBodyPos);
 
-    std::vector<uint8_t> firstFrameData;
-    firstFrameData.resize(trunBox->_entrys[0]._sampleSize.value());
+    int idx = 0;
+    for (auto entry : trunBox->_entrys)
+    {
+        ++idx;
 
-    fin.Read(&firstFrameData[0], firstFrameData.size());
+        std::vector<uint8_t> frameData;
+        frameData.resize(entry._sampleSize.value());
 
+        
+        if (!fin.Read(&frameData[0], frameData.size()))
+        {
+            std::cout << "error............" << std::endl;
+            return -1;
+        }
 
-    uint8_t type = (firstFrameData[0] >> 1) & 0x3F;
-    std::cout << "nalu type: " << (int)type << std::endl;
+        // first 4 bytes is sample length
+        uint8_t type = (frameData[4] >> 1) & 0x3F;
 
+        
+        std::cout << std::format("No.{} sample, len: {}, nalu type: {}",
+                                 idx,
+                                 frameData.size(), type)
+                  << std::endl;
+    }
+    
     std::cout << "end............" << std::endl;
 }

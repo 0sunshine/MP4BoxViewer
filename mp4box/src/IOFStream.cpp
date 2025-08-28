@@ -51,3 +51,8 @@ bool IOFStream::Read(uint8_t* buffer, int64_t wantSize)
 
     return _in.gcount() == wantSize;
 }
+
+bool IOFStream::Eof()
+{
+    return _in.eof();
+}

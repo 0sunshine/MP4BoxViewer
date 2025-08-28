@@ -17,6 +17,8 @@ public:
 
     bool Read(uint8_t* buffer, int64_t wantSize) override;
 
+    bool Eof() override;
+
 private:
     std::ifstream _in;
 };

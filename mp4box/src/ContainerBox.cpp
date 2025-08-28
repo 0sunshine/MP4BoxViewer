@@ -13,7 +13,7 @@ int64_t ContainerBox::Parse(IOBase* io)
         if (subBox->Parse(io) < 0) {
             delete subBox;
             std::cout << "subBox->Parse < 0" << std::endl;
-            break;
+            return -1;
         } else {
             _subBoxs.push_back(subBox);
         }

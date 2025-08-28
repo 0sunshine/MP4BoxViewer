@@ -2,6 +2,20 @@
 #include "Util.h"
 
 #include <iostream>
+#include <format>
+
+#define CHEACK_BOX_PARSER_OVERFLOW(self)                                       \
+    if (io->Eof()) {                                                           \
+        std::cout << std::format("parser error, no more data") << std::endl;   \
+    }                                                                          \
+
+#define CHEACK_BOX_PARSER_ERROR(self) \
+    int64_t realSize = io->GetCurrPos() - _ioStartPos; \
+    if (realSize != _size) { \
+        std::cout << std::format("parser error, read bytes:{}, should bytes: {}", realSize, _size) \
+                  << std::endl; \
+        return -1; \
+    }
 
 int64_t TrunBox::Parse(IOBase* io)
 {
@@ -10,7 +24,7 @@ int64_t TrunBox::Parse(IOBase* io)
         return -1;
     }
 
-    int64_t _ioCurrPos = io->GetCurrPos();
+    int64_t ioTrunBodyStartPos = io->GetCurrPos();
 
     if (!io->Read(reinterpret_cast<uint8_t*>(&_sampleCount), 4)) {
         return -1;
@@ -87,8 +101,12 @@ int64_t TrunBox::Parse(IOBase* io)
         }
 
         _entrys.push_back(entry);
+
+        CHEACK_BOX_PARSER_OVERFLOW(this);
     }
 
-    int64_t _ioCurrPos2 = io->GetCurrPos();
-    return _ioCurrPos2 - _ioCurrPos;
+    CHEACK_BOX_PARSER_ERROR(this);
+
+    int64_t ioCurrPos2 = io->GetCurrPos();
+    return ioCurrPos2 - ioTrunBodyStartPos;
 }

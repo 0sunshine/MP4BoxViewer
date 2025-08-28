@@ -15,4 +15,6 @@ public:
     virtual int64_t GetCurrPos() = 0;
 
     virtual bool Read(uint8_t* buffer, int64_t wantSize) = 0;
+
+    virtual bool Eof() = 0;
 };
