@@ -1,16 +1,18 @@
 #include "BoxFactory.h"
 #include "Box.h"
-#include "boxs/StsdBox.h"
 #include "boxs/MdiaBox.h"
 #include "boxs/MinfBox.h"
 #include "boxs/MoofBox.h"
 #include "boxs/MoovBox.h"
+#include "boxs/ResvBox.h"
+#include "boxs/RinfBox.h"
 #include "boxs/StblBox.h"
+#include "boxs/StsdBox.h"
+#include "boxs/TfdtBox.h"
 #include "boxs/TrafBox.h"
 #include "boxs/TrakBox.h"
 #include "boxs/TrunBox.h"
-#include "boxs/ResvBox.h"
-#include "boxs/RinfBox.h"
+#include "boxs/StszBox.h"
 
 #include <string>
 
@@ -53,21 +55,29 @@
         return new StsdBox;
     }
 
-    if (std::string("resv") == type) {
-        return new ResvBox;
+    if (std::string("stsz") == type) {
+        return new StszBox;
     }
 
-    if (std::string("rinf") == type) {
-        return new RinfBox;
+    //if (std::string("resv") == type) {
+    //    return new ResvBox;
+    //}
+
+    //if (std::string("rinf") == type) {
+    //    return new RinfBox;
+    //}
+
+    //if (std::string("hvcC") == type) {
+    //    return new HEVCConfigurationBox;
+    //}
+
+    //if (std::string("hvc1") == type || std::string("hev1") == type) {
+    //    return new HevcSampleEntry;
+    //}
+
+    if (std::string("tfdt") == type) {
+        return new TfdtBox;
     }
 
-    if (std::string("hvcC") == type) {
-        return new HEVCConfigurationBox;
-    }
-
-    if (std::string("hvc1") == type || std::string("hev1") == type) {
-        return new HevcSampleEntry;
-    }
-
-    return new Box;
+     return new Box;
 }

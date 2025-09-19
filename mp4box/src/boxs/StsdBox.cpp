@@ -33,6 +33,15 @@ int64_t StsdBox::Parse(IOBase* io)
     return readSize;
 }
 
+void StsdBox::GetBoxsByType(std::vector<Box*>& boxs, const std::string& type)
+{
+    Box::GetBoxsByType(boxs, type);
+
+    for (auto& entry : _sampleEntrys) {
+        entry->GetBoxsByType(boxs, type);
+    }
+}
+
 int64_t SampleEntry::Parse(IOBase* io)
 {
     int64_t _ioCurrPos = io->GetCurrPos();
