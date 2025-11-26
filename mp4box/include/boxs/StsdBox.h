@@ -114,4 +114,6 @@ struct StsdBox: public FullBox
     std::vector<Box*> _sampleEntrys;
 
     int64_t Parse(IOBase* io) override;
+    virtual void GetBoxsByType(std::vector<Box*>& boxs,
+                               const std::string& type);
 };

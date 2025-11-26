@@ -19,7 +19,7 @@ struct Box
 
     virtual int64_t Parse(IOBase* io);
 
-    void GetBoxsByType(std::vector<Box*>& boxs, const std::string& type);
+    virtual void GetBoxsByType(std::vector<Box*>& boxs, const std::string& type);
 
 protected:
     Box* GetOneBox(IOBase* io, Box* specifiedBox = nullptr);
